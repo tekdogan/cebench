@@ -261,3 +261,27 @@ Manuel Peuster
 - Twitter: [@ManuelPeuster](https://twitter.com/ManuelPeuster)
 - GitHub: [@mpeuster](https://github.com/mpeuster)
 - Website: [https://peuster.de](https://peuster.de)
+
+
+### NebulaStream Query Registration
+
+1. Run the script.
+2. From the Containernet CLI, exit or open another terminal.
+3. Enter the container with:
+
+```bash
+docker exec -it mn.nebuli bash
+```
+
+4. Inside:
+
+```bash
+ls /queries
+nes-cli -d -t /queries/topology.yaml start
+```
+
+If your query directory is not `$(pwd)/que`, set it before starting:
+
+```bash
+NES_QUERIES_DIR=/absolute/path/to/que sudo -E env PATH=$PATH python3 examples/nes_distributed_poc_containernet_with_nebuli.py
+```
