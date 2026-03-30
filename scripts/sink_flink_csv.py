@@ -3,12 +3,16 @@ import csv
 from datetime import datetime
 from io import StringIO
 
-MQTT_BROKER = "172.20.0.1"
+MQTT_BROKER = "172.26.0.1"
+#MQTT_BROKER = "192.168.0.1"
 MQTT_PORT = 1882
 MQTT_TOPIC_PROCESSED = "nexmark/output"
+#MQTT_TOPIC_PROCESSED = "q1-results"
+MQTT_TOPIC_PROCESSED = "bid"
 
 # Update this to match the exact CSV columns you publish
 FIELDNAMES = ["auctionId", "cart", "cort", "curt", "price", "timestamp"]
+#FIELDNAMES = ["timestamp","count"]
 
 # Function to calculate latency
 def calculate_latency(message):
@@ -41,6 +45,7 @@ def on_message(client, userdata, msg):
 
         latency = calculate_latency(data)
         print(f"E2E event latency for auction {data['auctionId']}: {latency:.2f} ms")
+        #print(f"E2E event latency for auction {data['timestamp']}: {latency:.2f} ms")
 
     except Exception as e:
         print(f"Error processing message: {e}")

@@ -2,12 +2,12 @@ import paho.mqtt.client as mqtt
 import json
 from datetime import datetime
 
-MQTT_BROKER = "172.20.0.1"
-#MQTT_BROKER = "172.22.0.1"
+MQTT_BROKER = "172.26.0.1"
+#MQTT_BROKER = "192.168.0.1"
 MQTT_PORT = 1882
 #MQTT_PORT = 1883
 MQTT_TOPIC_PROCESSED = "q1-results"  # Assuming the processed data is sent to this topic
-MQTT_TOPIC_PROCESSED = "nexmark/output"
+#MQTT_TOPIC_PROCESSED = "nexmark/output"
 
 # Function to calculate latency
 def calculate_latency(message):
@@ -15,12 +15,12 @@ def calculate_latency(message):
 
     f = open("outlog_sink.txt", "a")
 
-    print(message["timestamp"], type(message["timestamp"]))
+    #print(message["bid$timestamp"], type(message["bid$timestamp"]))
 
     current_timestamp = datetime.now()
-    #publish_timestamp = datetime.fromtimestamp(message["bid$timestamp"])
+    publish_timestamp = datetime.fromtimestamp(float(message["bid$timestamp"])/1000)
+    #publish_timestamp = datetime.fromtimestamp(float(message["powerReadings$timestamp"])/1000)
     publish_timestamp = datetime.fromtimestamp(float(message["timestamp"])/1000)
-    #publish_timestamp = datetime.utcfromtimestamp(message["bid$timestamp"]//1000).replace(microsecond=(message["bid$timestamp"])%1000*1000)
 
     print('###')
     print(publish_timestamp)
@@ -40,7 +40,8 @@ def on_message(client, userdata, msg):
         #print(msg.payload)
 
         latency = calculate_latency(data)
-        #print(f"Latency for message {data['exampleSource$id']}: {latency} ms")
+        #print(f"E2E event latency for message {data['bid$auctionId']}: {latency} ms")
+        #print(f"E2E event latency for message {data['powerReadings$timestamp']}: {latency} ms")
         print(f"E2E event latency for message {data['auctionId']}: {latency} ms")
 
     except Exception as e:
