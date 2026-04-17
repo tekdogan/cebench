@@ -128,7 +128,7 @@ def start_workers(nodes):
         cmd = (
             f"{WORKER_BIN} "
             f"--grpc=0.0.0.0:{worker['grpc_port']} "
-            f"--data={connection_ip}:{worker['connection_port']} "
+            f"--data_address={connection_ip}:{worker['connection_port']} "
             f"> /tmp/{name}.log 2>&1 &"
         )
         info(f"*** {name}: {cmd}\n")
@@ -157,7 +157,7 @@ if __name__ == "__main__":
             dimage=IMAGE,
             ports=[worker["grpc_port"], worker["connection_port"]],
             port_bindings=worker["host_port_bindings"],
-            publish_all_ports=False,
+            publish_all_ports=True,
             privileged=True,
         )
 
